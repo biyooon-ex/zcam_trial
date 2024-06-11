@@ -64,6 +64,8 @@ else:
 
 time.sleep(1.0)
 
+key_ping = args.key + "_ping"
+
 while True:
     if picamera:
         raw = vs.capture_array()
@@ -72,6 +74,6 @@ while True:
     if raw is not None:
         frame = imutils.resize(raw, width=args.width)
         _, jpeg = cv2.imencode('.jpg', frame, jpeg_opts)
-        z.put(args.key, jpeg.tobytes())
+        z.put(key_ping, jpeg.tobytes())
 
     time.sleep(args.delay)
