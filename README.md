@@ -11,7 +11,7 @@ Zenoh zcamデモのとらいある
 ### パッケージ
 
 - ubuntu22
-- Zenoh 0.10.1-rc
+- Zenoh 0.11.0
 - Python 3.10.12
 - OpenCV 4.5.4
 
