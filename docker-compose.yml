@@ -1,0 +1,9 @@
+services:
+  zcam_docker:
+    build: .
+    ports:
+      - "7447:7447"
+    volumes:
+      - .:/root/zcam_trial
+    working_dir: /root/zcam_trial
+    tty: true
