@@ -16,8 +16,8 @@ parser.add_argument('-l', '--listen', type=str, metavar='ENDPOINT', action='appe
                     help='zenoh endpoints to listen on.')
 parser.add_argument('-d', '--delay', type=float, default=0.05,
                     help='delay between each frame in seconds')
-parser.add_argument('-k', '--key', type=str, default='demo/zcam',
-                    help='key expression')
+parser.add_argument('-o', '--pong-key', type=str, default='demo/zcam/pong',
+                    help='key expression to pong (subscribe)')
 parser.add_argument('-c', '--config', type=str, metavar='FILE',
                     help='A zenoh configuration file.')
 
@@ -44,7 +44,7 @@ print('[INFO] Open zenoh session...')
 zenoh.init_logger()
 z = zenoh.open(conf)
 
-sub = z.declare_subscriber(args.key, frames_listener)
+sub = z.declare_subscriber(args.pong_key, frames_listener)
 
 while True:
     for cam in list(cams):

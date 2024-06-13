@@ -24,8 +24,8 @@ parser.add_argument('-q', '--quality', type=int, default=95,
                     help='quality of the published frames (0 - 100)')
 parser.add_argument('-d', '--delay', type=float, default=0.05,
                     help='delay between each frame in seconds')
-parser.add_argument('-k', '--key', type=str, default='demo/zcam',
-                    help='key expression')
+parser.add_argument('-i', '--ping-key', type=str, default='demo/zcam/ping',
+                    help='key expression to ping (publish)')
 parser.add_argument('-c', '--config', type=str, metavar='FILE',
                     help='A zenoh configuration file.')
 
@@ -72,6 +72,6 @@ while True:
     if raw is not None:
         frame = imutils.resize(raw, width=args.width)
         _, jpeg = cv2.imencode('.jpg', frame, jpeg_opts)
-        z.put(args.key, jpeg.tobytes())
+        z.put(args.ping_key, jpeg.tobytes())
 
     time.sleep(args.delay)
