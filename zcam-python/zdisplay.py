@@ -44,8 +44,7 @@ print('[INFO] Open zenoh session...')
 zenoh.init_logger()
 z = zenoh.open(conf)
 
-key_pong = args.key + "_pong"
-sub = z.declare_subscriber(key_pong, frames_listener)
+sub = z.declare_subscriber(args.key, frames_listener)
 
 while True:
     for cam in list(cams):
