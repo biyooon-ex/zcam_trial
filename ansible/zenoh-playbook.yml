@@ -1,8 +1,6 @@
 ---
 - name: Install Zenoh from deb
   hosts: all
-  vars:
-    ZENOH_VERSION: "0.11.0"
 
   tasks:
     - name: Install Zenoh prerequisites
@@ -14,7 +12,7 @@
     - name: Install Zenoh on x86_64
       become: true
       shell: |
-        wget -O ~/zenoh-pkgs.zip https://github.com/eclipse-zenoh/zenoh/releases/download/{{ ZENOH_VERSION }}/zenoh-{{ ZENOH_VERSION }}-x86_64-unknown-linux-gnu-debian.zip
+        wget -O ~/zenoh-pkgs.zip https://github.com/eclipse-zenoh/zenoh/releases/download/{{ zenoh | quote }}/zenoh-{{ zenoh | quote }}-x86_64-unknown-linux-gnu-debian.zip
         unzip ~/zenoh-pkgs.zip -d ~/
         sudo dpkg -i ~/zenoh*.deb
         rm -f ~/zenoh-pkgs.zip ~/zenoh*.deb
@@ -23,7 +21,7 @@
     - name: Install Zenoh on arm64
       become: true
       shell: |
-        wget -O ~/zenoh-pkgs.zip https://github.com/eclipse-zenoh/zenoh/releases/download/{{ ZENOH_VERSION }}/zenoh-{{ ZENOH_VERSION }}-aarch64-unknown-linux-gnu-debian.zip
+        wget -O ~/zenoh-pkgs.zip https://github.com/eclipse-zenoh/zenoh/releases/download/{{ zenoh | quote }}/zenoh-{{ zenoh | quote }}-aarch64-unknown-linux-gnu-debian.zip
         unzip ~/zenoh-pkgs.zip -d ~/
         sudo dpkg -i ~/zenoh*.deb
         rm -f ~/zenoh-pkgs.zip ~/zenoh*.deb
@@ -35,4 +33,4 @@
         sudo apt update
         sudo apt install python3-pip libpopencv-dev -y
         pip install -U pip
-        pip install --no-cache-dir eclipse-zenoh=={{ ZENOH_VERSION }} opencv-python numpy imutils
+        pip install --no-cache-dir eclipse-zenoh=={{ zenoh | quote }} opencv-python numpy imutils
