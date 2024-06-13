@@ -1,36 +1,51 @@
 ---
-- name: Install Zenoh from deb
+- name: Install Zenoh and Zcam environment
   hosts: all
 
   tasks:
     - name: Install Zenoh prerequisites
       become: true
-      shell: |
-        sudo apt update
-        sudo apt install wget unzip -y
+      apt:
+        update_cache: yes
+        name:
+          - unzip
+        state: latest
 
-    - name: Install Zenoh on x86_64
-      become: true
-      shell: |
-        wget -O ~/zenoh-pkgs.zip https://github.com/eclipse-zenoh/zenoh/releases/download/{{ zenoh | quote }}/zenoh-{{ zenoh | quote }}-x86_64-unknown-linux-gnu-debian.zip
-        unzip ~/zenoh-pkgs.zip -d ~/
-        sudo dpkg -i ~/zenoh*.deb
-        rm -f ~/zenoh-pkgs.zip ~/zenoh*.deb
+    - name: Download and unarchive to Zenoh dpkg when on x86_64
+      unarchive:
+        src: https://github.com/eclipse-zenoh/zenoh/releases/download/{{ zenoh | quote }}/zenoh-{{ zenoh | quote }}-x86_64-unknown-linux-gnu-debian.zip
+        dest: /tmp
+        remote_src: yes
       when: ansible_architecture == "x86_64"
 
-    - name: Install Zenoh on arm64
-      become: true
-      shell: |
-        wget -O ~/zenoh-pkgs.zip https://github.com/eclipse-zenoh/zenoh/releases/download/{{ zenoh | quote }}/zenoh-{{ zenoh | quote }}-aarch64-unknown-linux-gnu-debian.zip
-        unzip ~/zenoh-pkgs.zip -d ~/
-        sudo dpkg -i ~/zenoh*.deb
-        rm -f ~/zenoh-pkgs.zip ~/zenoh*.deb
+    - name: Download and unarchive to Zenoh dpkg when on arm64
+      unarchive:
+        src: https://github.com/eclipse-zenoh/zenoh/releases/download/{{ zenoh | quote }}/zenoh-{{ zenoh | quote }}-aarch64-unknown-linux-gnu-debian.zip
+        dest: /tmp
+        remote_src: yes
       when: ansible_architecture == "arm64"
 
-    - name: Install zenoh-python and opencv env for zcam
+    # because wildcard does not seem to work well,,,
+    - name: Install Zenoh from dpkg
       become: true
       shell: |
-        sudo apt update
-        sudo apt install python3-pip libpopencv-dev -y
-        pip install -U pip
-        pip install --no-cache-dir eclipse-zenoh=={{ zenoh | quote }} opencv-python numpy imutils
+        unzip /tmp/zenoh-pkgs.zip -d /tmp
+        sudo dpkg -i /tmp/zenoh*.deb
+        rm -f /tmp/zenoh*.deb
+
+    - name: Install opencv env for zcam
+      become: true
+      apt:
+        update_cache: yes
+        name:
+          - python3-pip
+          - libopencv-dev
+        state: latest
+
+    - name: Install zenoh-python and pip pkgs for zcam
+      pip:
+        name:
+          - eclipse-zenoh=={{ zenoh | quote }}
+          - opencv-python 
+          - numpy 
+          - imutils

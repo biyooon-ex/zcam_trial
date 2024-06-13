@@ -5,11 +5,14 @@
   tasks:
     - name: Install asdf prerequisites
       become: true
-      shell: |
-        sudo apt update
-        sudo apt install curl git -y
+      apt:
+        update_cache: yes
+        name:
+          - curl
+          - git
+        state: latest
 
-    - name: Install asdf
+    - name: Install and setup asdf
       shell: |
         test -d ~/.asdf || git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch {{ asdf | quote }}
         grep -qF '. "$HOME/.asdf/asdf.sh"' ~/.bashrc || echo '. "$HOME/.asdf/asdf.sh"' >> ~/.bashrc
@@ -17,8 +20,26 @@
 
     - name: Install Erlang prerequisites
       become: true
-      shell: |
-        sudo apt install build-essential autoconf m4 libncurses5-dev libwxgtk3.0-gtk3-dev libwxgtk-webview3.0-gtk3-dev libgl1-mesa-dev libglu1-mesa-dev libpng-dev libssh-dev unixodbc-dev xsltproc fop libxml2-utils libncurses-dev openjdk-11-jdk -y
+      apt:
+        update_cache: yes
+        name:
+          - build-essential
+          - autoconf
+          - m4
+          - libncurses5-dev
+          - libwxgtk3.0-gtk3-dev
+          - libwxgtk-webview3.0-gtk3-dev
+          - libgl1-mesa-dev
+          - libglu1-mesa-dev
+          - libpng-dev
+          - libssh-dev
+          - unixodbc-dev
+          - xsltproc
+          - fop
+          - libxml2-utils
+          - libncurses-dev
+          - openjdk-11-jdk
+        state: latest
 
     - name: Install Erlang
       shell: |
