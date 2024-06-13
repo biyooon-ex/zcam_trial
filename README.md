@@ -59,3 +59,60 @@ ansible-playbook -i inventory.yml asdf-playbook.yml
 - asdf v0.14.0
 - erlang 26.2.5
 - elixir 1.16.3-otp-26
+
+## Zcamの動作手順
+
+### ローカルPCのみでの動作
+
+ローカルPCでは適宜で `source ~/.venv/bin/activate` あたりを実行しておく．
+
+3つのターミナルを開いてそれぞれ下記を実行する．
+
+Ping側：
+```
+cd zcam-python
+python3 zcapture.py --ping-key demo/zcam/ping
+```
+
+Echo側：
+```
+cd zcam-python
+python3 zecho.py --ping-key demo/zcam/ping --pong-key demo/zcam/pong
+```
+
+Pong側：
+```
+cd zcam-python
+python3 zdisplay.py --pong-key demo/zcam/pong
+```
+
+### クラウドを仲介した動作
+
+ローカルPCでは，2つのターミナルを開いてそれぞれ下記を実行する．
+
+Ping側：
+```
+cd zcam-python
+python3 zcapture.py --ping-key demo/zcam/ping -e tcp/<x.x.x.x>:7447
+```
+
+Pong側：
+```
+cd zcam-python
+python3 zdisplay.py --ping-key demo/zcam/ping -e tcp/<x.x.x.x>:7447
+```
+
+クラウドでは，2つのターミナルを開いてそれぞれ下記を実行する．
+
+Zenohルータ：
+```
+zenohd
+```
+
+Echo側：
+```
+cd ~
+git clone https://github.com/biyooon-ex/zcam_trial
+cd zcam_trial/zcam-python
+python3 zecho.py
+```
