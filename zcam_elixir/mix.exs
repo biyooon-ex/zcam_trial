@@ -23,7 +23,8 @@ defmodule ZcamElixir.MixProject do
     [
       # {:zenohex, "~> 0.2.0"},
       {:zenohex, path: "../../zenohex", override: true},
-      {:rustler, ">= 0.0.0", optional: true}
+      {:rustler, ">= 0.0.0", optional: true},
+      {:evision, "~> 0.2"}
     ]
   end
 end

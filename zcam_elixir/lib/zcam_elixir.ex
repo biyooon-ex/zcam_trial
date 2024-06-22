@@ -1,18 +1,23 @@
 defmodule ZcamElixir do
   @moduledoc """
-  Documentation for `ZcamElixir`.
+  Main module for Elixir version of Zcam
   """
 
+  @ping_key "demo/zcam/ping"
+
   @doc """
-  Hello world.
+  Call Zcapture.
 
   ## Examples
 
-      iex> ZcamElixir.hello()
-      :world
-
+      iex> ZcamElixir.zcapture
+      iex> ZcamElixir.zcapture("demo/zcam/ping")
   """
-  def hello do
-    :world
+  def zcapture do
+    zcapture(@ping_key)
+  end
+
+  def zcapture(ping_key) do
+    ZcamElixir.Zcapture.main(ping_key)
   end
 end
