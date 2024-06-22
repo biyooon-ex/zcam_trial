@@ -9,7 +9,7 @@ defmodule ZcamElixir.Zcapture do
   @height 282
 
   @doc """
-  Opens a camera for video capturing, and a Zenoh session for publish
+  Open a camera for video capturing, and a Zenoh session for publish
   """
   def main(ping_key) do
     # Open a camera and wait 1s to connection

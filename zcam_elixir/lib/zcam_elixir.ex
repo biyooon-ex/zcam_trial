@@ -4,6 +4,7 @@ defmodule ZcamElixir do
   """
 
   @ping_key "demo/zcam/ping"
+  @pong_key "demo/zcam/pong"
 
   @doc """
   Call Zcapture.
@@ -13,11 +14,19 @@ defmodule ZcamElixir do
       iex> ZcamElixir.zcapture
       iex> ZcamElixir.zcapture("demo/zcam/ping")
   """
-  def zcapture do
-    zcapture(@ping_key)
+  def zcapture(ping_key \\ @ping_key) do
+    ZcamElixir.Zcapture.main(ping_key)
   end
 
-  def zcapture(ping_key) do
-    ZcamElixir.Zcapture.main(ping_key)
+  @doc """
+  Call Zecho.
+
+  ## Examples
+
+      iex> ZcamElixir.zecho
+      iex> ZcamElixir.zecho("demo/zcam/ping", "demo/zcam/pong")
+  """
+  def zecho(ping_key \\ @ping_key, pong_key \\ @pong_key) do
+    ZcamElixir.Zecho.main(ping_key, pong_key)
   end
 end
