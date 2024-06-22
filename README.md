@@ -105,35 +105,54 @@ mix compile
     cd zcam-python
     python3 zdisplay.py --pong-key demo/zcam/pong
     ```
-  - Elixirの場合：未実装
+  - Elixirは未実装
 
 ### クラウドを仲介した動作
 
 ローカルPCでは，2つのターミナルを開いてそれぞれ下記を実行する．
 
-Ping側：
-```
-cd zcam-python
-python3 zcapture.py --ping-key demo/zcam/ping -e tcp/<x.x.x.x>:7447
-```
+- Ping側：
+  - Pythonの場合
+    ```
+    cd zcam-python
+    python3 zcapture.py --ping-key demo/zcam/ping -e tcp/<x.x.x.x>:7447
+    ```
+  - Elixirの場合
+    ```
+    cd zcam_elixir
+    iex -S mix
+    iex()> ZcamElixir.zcapture("demo/zcam/ping", "tcp/<x.x.x.x>:7447")
+    ```
+- Pong側：
+  - Pythonの場合
+    ```
+    cd zcam-python
+    python3 zdisplay.py --pong-key demo/zcam/pong -e tcp/<x.x.x.x>:7447
+    ```
+  - Elixirは未実装
 
-Pong側：
-```
-cd zcam-python
-python3 zdisplay.py --ping-key demo/zcam/ping -e tcp/<x.x.x.x>:7447
-```
+クラウドでは，まずこのリポジトリをcloneしておく
 
-クラウドでは，2つのターミナルを開いてそれぞれ下記を実行する．
-
-Zenohルータ：
-```
-zenohd
-```
-
-Echo側：
 ```
 cd ~
 git clone https://github.com/biyooon-ex/zcam_trial
-cd zcam_trial/zcam-python
-python3 zecho.py
 ```
+
+その後，2つのターミナルを開いてそれぞれ下記を実行する．
+
+- Zenohルータ：
+  ```
+  zenohd
+  ```
+- Echo側：
+  - Pythonの場合
+    ```
+    cd ~/zcam_trial/zcam-python
+    python3 zecho.py
+    ```
+  - Elixirの場合
+    ```
+    cd ~/zcam_trial/zcam_elixir
+    iex -S mix
+    iex()> ZcamElixir.zecho("demo/zcam/ping", "demo/zcam/pong")
+    ```

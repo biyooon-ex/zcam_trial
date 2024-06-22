@@ -14,8 +14,9 @@ defmodule ZcamElixir do
       iex> ZcamElixir.zcapture
       iex> ZcamElixir.zcapture("demo/zcam/ping")
   """
-  def zcapture(ping_key \\ @ping_key) do
-    ZcamElixir.Zcapture.main(ping_key)
+  def zcapture(ping_key \\ @ping_key, cloud_zenohd \\ nil) do
+    IO.puts(cloud_zenohd)
+    ZcamElixir.Zcapture.main(ping_key, cloud_zenohd)
   end
 
   @doc """
