@@ -22,7 +22,11 @@ defmodule ZcamElixir.MixProject do
   defp deps do
     [
       # {:zenohex, "~> 0.2.0"},
-      {:zenohex, path: "../../zenohex", override: true},
+      # {:zenohex, path: "../../zenohex", override: true},
+      {:zenohex,
+       git: "https://github.com/biyooon-ex/zenohex",
+       branch: "bump_to_zenoh_v0.11.0",
+       override: true},
       {:rustler, ">= 0.0.0", optional: true},
       {:evision, "~> 0.2"}
     ]
