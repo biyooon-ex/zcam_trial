@@ -64,27 +64,48 @@ ansible-playbook -i inventory.yml asdf-playbook.yml
 
 ### ローカルPCのみでの動作
 
-ローカルPCでは適宜で `source ~/.venv/bin/activate` あたりを実行しておく．
+PythonのためローカルPCでは適宜で `source ~/.venv/bin/activate` あたりを実行しておく．
+
+ElixirのためMixプロジェクトをビルドしておく．
+```
+cd zcam_elixir
+mix deps.get
+mix compile
+```
 
 3つのターミナルを開いてそれぞれ下記を実行する．
 
-Ping側：
-```
-cd zcam-python
-python3 zcapture.py --ping-key demo/zcam/ping
-```
-
-Echo側：
-```
-cd zcam-python
-python3 zecho.py --ping-key demo/zcam/ping --pong-key demo/zcam/pong
-```
-
-Pong側：
-```
-cd zcam-python
-python3 zdisplay.py --pong-key demo/zcam/pong
-```
+- Ping側：
+  - Pythonの場合
+    ```
+    cd zcam-python
+    python3 zcapture.py --ping-key demo/zcam/ping
+    ```
+  - Elixirの場合
+    ```
+    cd zcam_elixir
+    iex -S mix
+    iex()> ZcamElixir.zcapture("demo/zcam/ping")
+    ```
+- Echo側：
+  - Pythonの場合
+    ```
+    cd zcam-python
+    python3 zecho.py --ping-key demo/zcam/ping --pong-key demo/zcam/pong
+    ```
+  - Elixirの場合
+    ```
+    cd zcam_elixir
+    iex -S mix
+    iex()> ZcamElixir.zecho("demo/zcam/ping", "demo/zcam/pong")
+    ```
+- Pong側：
+  - Pythonの場合
+    ```
+    cd zcam-python
+    python3 zdisplay.py --pong-key demo/zcam/pong
+    ```
+  - Elixirの場合：未実装
 
 ### クラウドを仲介した動作
 
