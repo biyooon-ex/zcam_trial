@@ -7,12 +7,11 @@ defmodule ZcamElixir.Zecho do
   Open a Zenoh session for echo (subscribe and publish)
   """
   def main(ping_key, pong_key) do
-    # Open a Zenoh session for subscribe
+    # Open Zenoh session and declare subscriber
     {:ok, session} = Zenohex.open()
     {:ok, subscriber} = Zenohex.Session.declare_subscriber(session, ping_key)
 
-    # Open a Zenoh session for publish
-    {:ok, session} = Zenohex.open()
+    # Declare publisher with created Zenoh session
     {:ok, publisher} = Zenohex.Session.declare_publisher(session, pong_key)
 
     frames_listener(subscriber, publisher)

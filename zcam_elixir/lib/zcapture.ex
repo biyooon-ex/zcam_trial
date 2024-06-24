@@ -33,7 +33,7 @@ defmodule ZcamElixir.Zcapture do
           }
       end
 
-    # Open a Zenoh session for publish
+    # Open Zenoh session and declare publisher
     {:ok, session} = Zenohex.open(config)
     {:ok, publisher} = Zenohex.Session.declare_publisher(session, ping_key)
 
