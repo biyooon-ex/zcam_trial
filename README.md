@@ -2,7 +2,21 @@
 
 Zenoh zcamデモのとらいある
 
-## Ansibleのための設定
+## 必要なツール・バージョン
+
+- [zenoh 0.11.0](https://github.com/eclipse-zenoh/zenoh/releases/tag/0.11.0)
+- opencv 4.5.4 (e.g. `apt install libopencv-dev`)
+- asdf v0.14.0
+- erlang 26.2.5
+- elixir 1.16.3-otp-26
+- Python 3
+  - pip: eclipse-zenoh==0.11.0, opencv-python, numpy, imutils
+
+ローカルPCでは適宜でインストール，リモート先にクラウドVMを使う場合には下記のAnsibleで環境構築可能．
+
+## Ansibleでのリモート先サーバの環境構築
+
+### ローカルPCの設定
 
 - ローカルPCにAnsibleのインストール https://docs.ansible.com/ansible/2.9_ja/installation_guide/intro_installation.html
   - macOS環境だとpipでインストール
@@ -37,12 +51,10 @@ Zenoh zcamデモのとらいある
       "ping": "pong"
   }
   ```
-  - Python関係の`[WARNING]`出ても気にしないことにする．
-- ネットワーク設定 > ネットワークセキュリティグループ に移動し，受信/送信の双方のセキュリティ規則 に下記を「宛先ポート範囲」として「許可」で追加する（TODO：要否を検証） 
-  - 4444 (simple_echo用)
-  - 7447 (Zenoh通信用)
+  - Python関係の`[WARNING]`が出ても気にしないことにする．
+- Zenoh通信のため，ネットワーク設定 > ネットワークセキュリティグループ に移動し，受信/送信の双方のセキュリティ規則 に下記を「宛先ポート範囲」として「許可」で`7447`を追加する（TODO：要否を検証） 
 
-## 環境構築 on VM by ansible
+### 環境構築 on VM by ansible
 
 ローカルPCで下記を実行
 
@@ -51,14 +63,6 @@ cd ansible
 ansible-playbook -i inventory.yml zenoh-playbook.yml
 ansible-playbook -i inventory.yml asdf-playbook.yml
 ```
-
-インストールされるもの（ローカルPC側にも同じものを用意すること）
-
-- zenoh 0.11.0
-- opencv 4.5.4
-- asdf v0.14.0
-- erlang 26.2.5
-- elixir 1.16.3-otp-26
 
 ## Zcamの動作手順
 
