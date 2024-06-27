@@ -21,13 +21,7 @@ defmodule ZcamElixir.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:zenohex, "~> 0.2.0"},
-      # {:zenohex, path: "../../zenohex", override: true},
-      {:zenohex,
-       git: "https://github.com/biyooon-ex/zenohex",
-       branch: "bump_to_zenoh_v0.11.0",
-       override: true},
-      {:rustler, ">= 0.0.0", optional: true},
+      {:zenohex, "~> 0.3.0"},
       {:evision, "~> 0.2"}
     ]
   end
