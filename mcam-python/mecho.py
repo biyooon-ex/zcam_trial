@@ -18,7 +18,7 @@ args = parser.parse_args()
 
 # MQTT Broker
 if args.connect is not None:
-    MQTT_BROKER = args.connect
+    MQTT_BROKER = args.connect[0]
 else:
     MQTT_BROKER = "127.0.0.1"
 # Topic on which frame will be published/subscribed
