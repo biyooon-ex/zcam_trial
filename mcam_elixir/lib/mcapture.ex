@@ -8,6 +8,8 @@ defmodule McamElixir.Mcapture do
   @width 500
   @height 282
 
+  @client_id Mcapture
+
   @doc """
   Open a camera for video capturing, and connect to a MQTT broker for publish
   """
@@ -17,7 +19,7 @@ defmodule McamElixir.Mcapture do
     Process.sleep(1000)
 
     Tortoise311.Connection.start_link(
-      client_id: McamElixir.Mcapture,
+      client_id: @client_id,
       server: {Tortoise311.Transport.Tcp, host: cloud_mbroker, port: 1883},
       handler: {Tortoise311.Handler.Logger, []}
     )
@@ -32,7 +34,7 @@ defmodule McamElixir.Mcapture do
     jpeg = Cv.imencode(".jpg", frame)
     jpg_as_text = Base.encode64(jpeg)
 
-    Tortoise311.publish(McamElixir.Mcapture, ping_topic, jpg_as_text, qos: 0)
+    Tortoise311.publish(@client_id, ping_topic, jpg_as_text, qos: 0)
 
     Process.sleep(50)
     mpublish(vs, ping_topic)

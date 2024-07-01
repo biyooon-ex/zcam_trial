@@ -19,4 +19,15 @@ defmodule McamElixir do
     McamElixir.Mcapture.main(ping_topic, cloud_mbroker)
   end
 
+  @doc """
+  Call Mecho.
+
+  ## Examples
+
+      iex> McamElixir.mecho
+      iex> McamElixir.mecho("demo/mcam/ping", "demo/mcam/pong")
+  """
+  def mecho(ping_topic \\ @ping_topic, pong_topic \\ @pong_topic) do
+    McamElixir.Mecho.main(ping_topic, pong_topic)
+  end
 end
