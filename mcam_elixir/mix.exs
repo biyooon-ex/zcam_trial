@@ -21,7 +21,8 @@ defmodule McamElixir.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:tortoise311, "~> 0.11"}
+      {:tortoise311, "~> 0.11"},
+      {:evision, "~> 0.2"}
     ]
   end
 end
