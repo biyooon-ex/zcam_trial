@@ -1,18 +1,22 @@
 defmodule McamElixir do
   @moduledoc """
-  Documentation for `McamElixir`.
+  Main module for Elixir version of Mcam
   """
 
+  @ping_topic "demo/mcam/ping"
+  @pong_topic "demo/mcam/pong"
+
   @doc """
-  Hello world.
+  Call Mcapture.
 
   ## Examples
 
-      iex> McamElixir.hello()
-      :world
-
+      iex> McamElixir.mcapture
+      iex> McamElixir.mcapture("demo/mcam/ping")
   """
-  def hello do
-    :world
+  def mcapture(ping_topic \\ @ping_topic, cloud_mbroker \\ "localhost") do
+    IO.puts(cloud_mbroker)
+    McamElixir.Mcapture.main(ping_topic, cloud_mbroker)
   end
+
 end
