@@ -1,0 +1,18 @@
+---
+- name: Install MQTT environment
+  hosts: all
+
+  tasks:
+    - name: Install Mosquitto
+      become: true
+      apt:
+        update_cache: yes
+        name:
+          - mosquitto
+          - mosquitto-clients
+        state: latest
+
+    - name: Install pip pkgs for mcam
+      pip:
+        name:
+          - paho-mqtt
