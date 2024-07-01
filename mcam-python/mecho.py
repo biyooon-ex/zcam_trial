@@ -9,6 +9,8 @@ parser = argparse.ArgumentParser(
     description='mqtt video display example')
 parser.add_argument('-e', '--connect', type=str, metavar='ENDPOINT', action='append',
                     help='mqtt broker to listen on.')
+parser.add_argument('-i', '--ping-topic', type=str, default='demo/mcam/ping',
+                    help='topic to pong (subscribe)')
 parser.add_argument('-o', '--pong-topic', type=str, default='demo/mcam/pong',
                     help='topic to pong (subscribe)')
 
@@ -19,12 +21,11 @@ if args.connect is not None:
     MQTT_BROKER = args.connect
 else:
     MQTT_BROKER = "127.0.0.1"
-# Topic on which frame will be published
+# Topic on which frame will be published/subscribed
+if args.ping_topic is not None:
+    MQTT_RECEIVE = args.ping_topic
 if args.pong_topic is not None:
-    MQTT_RECEIVE = args.pong_topic
-
-frame = np.zeros((240, 320, 3), np.uint8)
-
+    MQTT_SEND = args.pong_topic
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -36,13 +37,10 @@ def on_connect(client, userdata, flags, rc):
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
-    global frame
     # Decoding the message
     img = base64.b64decode(msg.payload)
-    # converting into numpy array from buffer
-    npimg = np.frombuffer(img, dtype=np.uint8)
-    # Decode to Original Frame
-    frame = cv.imdecode(npimg, 1)
+    jpg_as_text =  base64.b64encode(img)
+    client.publish(MQTT_SEND, jpg_as_text)
 
 
 client = mqtt.Client()
@@ -55,9 +53,7 @@ client.connect(MQTT_BROKER)
 client.loop_start()
 
 while True:
-    cv.imshow("Stream", frame)
-    if cv.waitKey(1) & 0xFF == ord('q'):
-        break
+    True
 
 # Stop the Thread
 client.loop_stop()
