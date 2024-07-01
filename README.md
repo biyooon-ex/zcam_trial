@@ -52,7 +52,7 @@ Zenoh zcamデモのとらいある
   }
   ```
   - Python関係の`[WARNING]`が出ても気にしないことにする．
-- Zenoh通信のため，ネットワーク設定 > ネットワークセキュリティグループ に移動し，受信/送信の双方のセキュリティ規則 に下記を「宛先ポート範囲」として「許可」で`7447`を追加する（TODO：要否を検証） 
+- ZenohとMQTTの通信のため，ネットワーク設定 > ネットワークセキュリティグループ に移動し，受信/送信の双方のセキュリティ規則 に「宛先ポート範囲」として「許可」で`7447`と`1883`を追加する（TODO：要否を検証） 
 
 ### 環境構築 on VM by ansible
 
@@ -62,6 +62,7 @@ Zenoh zcamデモのとらいある
 cd ansible
 ansible-playbook -i inventory.yml zenoh-playbook.yml
 ansible-playbook -i inventory.yml asdf-playbook.yml
+ansible-playbook -i inventory.yml mqtt-playbook.yml
 ```
 
 ## Zcamの動作手順
@@ -160,3 +161,99 @@ git clone https://github.com/biyooon-ex/zcam_trial
     iex -S mix
     iex()> ZcamElixir.zecho("demo/zcam/ping", "demo/zcam/pong")
     ```
+
+## Mcamの動作手順
+
+ZcamのMQTT版，しらんけど:D
+
+### ローカルPCのみでの動作
+
+PythonのためローカルPCでは適宜で `source ~/.venv/bin/activate` あたりを実行しておく．
+
+ElixirのためMixプロジェクトをビルドしておく．
+```
+cd mcam_elixir
+mix deps.get
+mix compile
+```
+
+3つのターミナルを開いてそれぞれ下記を実行する．
+
+- Ping側：
+  - Pythonの場合
+    ```
+    cd mcam-python
+    python3 mcapture.py --ping-topic demo/mcam/ping
+    ```
+  - Elixirの場合
+    ```
+    cd mcam_elixir
+    iex -S mix
+    iex()> McamElixir.mcapture("demo/mcam/ping")
+    ```
+- Echo側：
+  - Pythonの場合
+    ```
+    cd mcam-python
+    python3 mecho.py --ping-topic demo/mcam/ping --pong-topic demo/mcam/pong
+    ```
+  - Elixirの場合
+    ```
+    cd mcam_elixir
+    iex -S mix
+    iex()> McamElixir.mecho("demo/mcam/ping", "demo/mcam/pong")
+    ```
+- Pong側：
+  - Pythonの場合
+    ```
+    cd mcam-python
+    python3 mdisplay.py --pong-topic demo/mcam/pong
+    ```
+  - Elixirは未実装
+
+### クラウドを仲介した動作
+
+先にクラウドでブローカーを立ち上げる必要がある
+
+- MQTTブローカー：
+  ```
+  cd ~/zcam_trial/mcam-python
+  mosquitto -c mosquitto.conf
+  ```
+
+その後，もうひとつのターミナルを開いてそれぞれ下記を実行する．
+
+- Echo側：
+  - Pythonの場合
+    ```
+    cd ~/zcam_trial/mcam-python
+    python3 mecho.py
+    ```
+  - Elixirの場合
+    ```
+    cd ~/zcam_trial/mcam_elixir
+    iex -S mix
+    iex()> McamElixir.mecho("demo/mcam/ping", "demo/mcam/pong")
+    ```
+
+ローカルPCでは，2つのターミナルを開いてそれぞれ下記を実行する．
+
+- Ping側：
+  - Pythonの場合
+    ```
+    cd mcam-python
+    python3 mcapture.py --ping-topic demo/mcam/ping -e "<x.x.x.x>"
+    ```
+  - Elixirの場合
+    ```
+    cd mcam_elixir
+    iex -S mix
+    iex()> McamElixir.mcapture("demo/mcam/ping", "<x.x.x.x>")
+    ```
+- Pong側：
+  - Pythonの場合
+    ```
+    cd mcam-python
+    python3 mdisplay.py --pong-topic demo/mcam/pong -e "x.x.x.x"
+    ```
+  - Elixirは未実装
