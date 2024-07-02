@@ -5,12 +5,13 @@ Zenoh zcamデモのとらいある
 ## 必要なツール・バージョン
 
 - [zenoh 0.11.0](https://github.com/eclipse-zenoh/zenoh/releases/tag/0.11.0)
+- mosquitto 2.0.11 or 2.0.18
 - opencv 4.5.4 (e.g. `apt install libopencv-dev`)
 - asdf v0.14.0
 - erlang 26.2.5
 - elixir 1.16.3-otp-26
 - Python 3
-  - pip: eclipse-zenoh==0.11.0, opencv-python, numpy, imutils
+  - pip: eclipse-zenoh==0.11.0, opencv-python, numpy, imutils, paho-mqtt
 
 ローカルPCでは適宜でインストール，リモート先にクラウドVMを使う場合には下記のAnsibleで環境構築可能．
 
