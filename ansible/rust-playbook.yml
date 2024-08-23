@@ -23,11 +23,3 @@
       shell: /tmp/sh.rustup.rs -y
       tags:
         - rust
-
-
-
-
-
-
-
-
