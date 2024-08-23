@@ -11,6 +11,7 @@ Zenoh zcamデモのとらいある
 - elixir 1.16.3-otp-26
 - Python 3
   - pip: eclipse-zenoh==0.11.0, opencv-python, numpy, imutils
+- cargo 1.80.1 以降
 
 ローカルPCでは適宜でインストール，リモート先にクラウドVMを使う場合には下記のAnsibleで環境構築可能．
 
@@ -62,6 +63,7 @@ Zenoh zcamデモのとらいある
 cd ansible
 ansible-playbook -i inventory.yml zenoh-playbook.yml
 ansible-playbook -i inventory.yml asdf-playbook.yml
+ansible-playbook -i inventory.yml rust-playbook.yml
 ```
 
 ## Zcamの動作手順
