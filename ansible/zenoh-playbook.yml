@@ -29,7 +29,6 @@
     - name: Install Zenoh from dpkg
       become: true
       shell: |
-        unzip /tmp/zenoh-pkgs.zip -d /tmp
         sudo dpkg -i /tmp/zenoh*.deb
         rm -f /tmp/zenoh*.deb
 
