@@ -41,6 +41,7 @@ Zenoh zcamデモのとらいある
     IdentityFile ~/.ssh/hogehoge.pem
   ```
   - inventory fileに書くのが公式推奨？だが，特にIPアドレスをGitHub管理にしたくないので本方法を用いることにする．
+  - 鍵交換でsshアクセスが前提だが，そうでない場合は`ansible.cfg`に`ask_pass=True`を追加するとかよしなにする．
 - 疎通確認
   ```
   % ansible all -i ansible/inventory.yml -m ping
@@ -65,6 +66,8 @@ ansible-playbook -i inventory.yml zenoh-playbook.yml
 ansible-playbook -i inventory.yml asdf-playbook.yml
 ansible-playbook -i inventory.yml rust-playbook.yml
 ```
+
+アクセス先のVMで`sudo`実行にパスワード入力が必要な場合は`-K`を追加して実行（Azureでは不要）
 
 ## Zcamの動作手順
 
