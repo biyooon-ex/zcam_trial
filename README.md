@@ -171,6 +171,13 @@ ZcamのMQTT版，しらんけど:D
 
 PythonのためローカルPCでは適宜で `source ~/.venv/bin/activate` あたりを実行しておく．
 
+先に別ターミナルでブローカーを立ち上げる必要がある．
+
+```
+cd ~/zcam_trial/mcam-python
+mosquitto -c mosquitto.conf
+```
+
 ElixirのためMixプロジェクトをビルドしておく．
 ```
 cd mcam_elixir
@@ -214,7 +221,7 @@ mix compile
 
 ### クラウドを仲介した動作
 
-先にクラウドでブローカーを立ち上げる必要がある
+先にクラウドでブローカーを立ち上げる必要がある．
 
 - MQTTブローカー：
   ```
